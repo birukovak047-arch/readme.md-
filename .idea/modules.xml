@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/readme.md-.iml" filepath="$PROJECT_DIR$/.idea/readme.md-.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/qa-automation-tests.iml" filepath="$PROJECT_DIR$/.idea/qa-automation-tests.iml" />
     </modules>
   </component>
 </project>
