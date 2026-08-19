@@ -8,8 +8,9 @@ def test_multiple_elements():
     all_links = driver.find_elements(By.TAG_NAME, "a")
     assert len(all_links) == 9
 
-    for link in all_links():
+    for link in all_links:
         assert link.is_displayed()
-        assert link[0] == "1"
+
+    assert all_links[0].text == "1"
 
     driver.quit()
