@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common import actions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,6 +12,16 @@ def test_1():
     but_rem = driver.find_element(By.XPATH, "//button[text()='Remove']")
     but_rem.click()
     # Ждем появления текста "It's gone!" и проверяем
-    text = wait.until(
+    message = wait.until(
         EC.presence_of_element_located(By.XPATH, "//button[text()='Remove']"))
-    text.click()
+    message_element = driver.find_element(By.ID, "message")
+    assert message_element.text == "It's gone!", "Сообщение 'It's gone!' не появилось"
+    # Нажимаем кнопку Enable
+    driver.find_element(
+        By.XPATH, "//button[@onclick="swapInput()"]).click()
+
+    but_rem = wait.until(
+        EC.element_to_be_clickable(By.XPATH, "//input[@type="text"]"))
+    )
+    assert but_rem.is_enabled()
+
