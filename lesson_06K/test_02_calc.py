@@ -12,11 +12,15 @@ def test_calc():
     input_field = driver.find_element(By.CSS_SELECTOR, "#delay")
     input_field.clear()
     input_field.send_keys('45')
+    
+    button = ['7', '+', '8', '=']
+    for x in range(0, len(button)):
+        driver.find_element(By.XPATH, f"//span[text() = '{button[x]}']").click()
 
-    driver.find_element(By.XPATH, "//span[text() = 7]").click()
-    driver.find_element(By.XPATH, "//span[text() = '+']").click()
-    driver.find_element(By.XPATH, "//span[text() = 8]").click()
-    driver.find_element(By.XPATH, "//span[text() = '=']").click()
+    # driver.find_element(By.XPATH, "//span[text() = 7]").click()
+    # driver.find_element(By.XPATH, "//span[text() = '+']").click()
+    # driver.find_element(By.XPATH, "//span[text() = 8]").click()
+    # driver.find_element(By.XPATH, "//span[text() = '=']").click()
 
     wait = WebDriverWait(driver, 45)
     wait.until(EC.text_to_be_present_in_element(
