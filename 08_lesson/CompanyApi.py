@@ -1,75 +1,121 @@
 import requests
+import uuid
 
 
 class CompanyApi:
-    def __init__(self, url) -> None:
-        self.url = url
+    # def __init__(self, url) -> None:
+    #     self.url = url
+    #
+    # def get_company_list(self, params_to_add=None):
+    #     resp = requests.get(self.url + '/company/list', params=params_to_add)
+    #     return resp.json()
+    #
+    # def get_token(self, user='harrypotter',
+    #               password='expelliarmus'):
+    #     creds = {
+    #         "username": user,
+    #         "password": password
+    #     }
+    #     resp = requests.post(self.url + '/auth/login', json=creds)
+    #     return resp.json()["user_token"]
+    #
+    # def get_company(self, id):
+    #     resp = requests.get(self.url + '/company/' + str(id))
+    #     return resp.json()
+    #
+    # def create_company(self, name, description=""):
+    #     company = {
+    #         "name": name,
+    #         "description": description
+    #     }
+    #     resp = requests.post(self.url + '/company/create',
+    #                          json=company)
+    #     return resp.json()
+    #
+    # def edit_company(self, new_id, new_name, new_descr):
+    #     # Получаем токен
+    #     client_token = self.get_token()
+    #
+    #     # Формируем URL с параметром client_token
+    #     url_with_token = (
+    #         f"{self.url}/company/update/{new_id}?client_token={client_token}"
+    #     )
+    #
+    #     # Формируем словарь с описанием компании
+    #     company = {
+    #         "name": new_name,  # Новое имя компании
+    #         "description": new_descr,  # Новое описание компании
+    #     }
+    #
+    #     # Метод отправляет запрос по URL и передает тело
+    #     resp = requests.patch(url_with_token, json=company)
+    #
+    #     # Результат вернется в JSON, мы его прокинем в тест
+    #     return resp.json()
+    #
+    # def delete_company(self, id):
+    #     client_token = self.get_token()
+    #
+    #     # Формируем URL с параметром client_token
+    #     url_with_token =
+    #     f"{self.url}/company/{id}?client_token={client_token}"
+    #
+    #     # Метод отправляет DELETE-запрос
+    #     resp = requests.delete(url_with_token)
+    #
+    #     # Возвращаем JSON-ответ
+    #     return resp.json()
+    #
+    # def set_active_state(self, id, is_active):
+    #     client_token = self.get_token()
+    #
+    #     url_with_token = (
+    #         f"{self.url}/company/status_update/{id}?client_token={client_token}"
+    #     )
+    #
+    #     resp = requests.patch(url_with_token, json={"is_active": is_active})
+    #     return resp.json()
+    import requests
 
-    def get_company_list(self, params_to_add=None):
-        resp = requests.get(self.url + '/company/list', params=params_to_add)
-        return resp.json()
-
-    def get_token(self, user='harrypotter',
-                  password='expelliarmus'):
-        creds = {
-            "username": user,
-            "password": password
+    def __init__(self, url):
+        self.url = url.rstrip("/")
+        self.token = \
+            "zRr7_HfdRSp16VlKrshpduYlgcVXvGFj-LaKNfEWKCDEnMPLYfgm_bmqVIHEmPq-"
+        self.headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.token}",
         }
-        resp = requests.post(self.url + '/auth/login', json=creds)
-        return resp.json()["user_token"]
+        # Заменить на свой ключ
 
-    def get_company(self, id):
-        resp = requests.get(self.url + '/company/' + str(id))
-        return resp.json()
-
-    def create_company(self, name, description=""):
-        company = {
-            "name": name,
-            "description": description
+    def create_project(self, name):
+        """Создание проекта"""
+        project_data = {
+            "title": name,
+            "idempotencyKey": str(uuid.uuid4()),  # генерируем уникальный ключ
         }
-        resp = requests.post(self.url + '/company/create',
-                             json=company)
-        return resp.json()
-
-    def edit_company(self, new_id, new_name, new_descr):
-        # Получаем токен
-        client_token = self.get_token()
-
-        # Формируем URL с параметром client_token
-        url_with_token = (
-            f"{self.url}/company/update/{new_id}?client_token={client_token}"
+        resp = requests.post(
+            f"{self.url}/projects",
+            json=project_data,
+            headers=self.headers,
         )
+        return resp
 
-        # Формируем словарь с описанием компании
-        company = {
-            "name": new_name,  # Новое имя компании
-            "description": new_descr,  # Новое описание компании
+    def update_project(self, project_id, name):
+        """Обновление проекта"""
+        project_data = {
+            "title": name  # только title, без idempotencyKey
         }
-
-        # Метод отправляет запрос по URL и передает тело
-        resp = requests.patch(url_with_token, json=company)
-
-        # Результат вернется в JSON, мы его прокинем в тест
-        return resp.json()
-
-    def delete_company(self, id):
-        client_token = self.get_token()
-
-        # Формируем URL с параметром client_token
-        url_with_token = f"{self.url}/company/{id}?client_token={client_token}"
-
-        # Метод отправляет DELETE-запрос
-        resp = requests.delete(url_with_token)
-
-        # Возвращаем JSON-ответ
-        return resp.json()
-
-    def set_active_state(self, id, is_active):
-        client_token = self.get_token()
-
-        url_with_token = (
-            f"{self.url}/company/status_update/{id}?client_token={client_token}"
+        resp = requests.put(
+            f"{self.url}/projects/{project_id}",
+            json=project_data,
+            headers=self.headers,
         )
+        return resp
 
-        resp = requests.patch(url_with_token, json={"is_active": is_active})
-        return resp.json()
+    def get_project(self, project_id):
+        """Получение проекта по ID"""
+        resp = requests.get(
+            f"{self.url}/projects/{project_id}",
+            headers=self.headers,
+        )
+        return resp
