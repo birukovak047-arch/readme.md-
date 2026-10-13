@@ -79,8 +79,8 @@ class CompanyApi:
 
     def __init__(self, url):
         self.url = url.rstrip("/")
-        self.token = \
-            "zRr7_HfdRSp16VlKrshpduYlgcVXvGFj-LaKNfEWKCDEnMPLYfgm_bmqVIHEmPq-"
+        self.token = (
+            "Вставь свой ключ")
         self.headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.token}",
