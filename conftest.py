@@ -1,6 +1,13 @@
 import pytest
 from selenium import webdriver
 from pages.PageObject_task_1 import GoogleMainPage
+"""
+Общие настройки pytest и добавление корня проекта в sys.path.
+"""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 @pytest.fixture()
 def driver():
